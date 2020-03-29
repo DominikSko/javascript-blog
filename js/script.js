@@ -1,8 +1,10 @@
 'use strict';
 
+/* Wyświetlanie artykułu po kliknięciu  */
+
 function titleClickHandler(event){
-  event.preventDefault();
-  const clickedElement = this;                         /* co tu sie dzieje co to jest this */
+  event.preventDefault();                          /* event prevent default?  */
+  const clickedElement = this;                     /* co tu sie dzieje co to jest this */
   console.log(event,'Link was clicked!');
 
 
@@ -44,3 +46,41 @@ const links = document.querySelectorAll('.titles a');
 for(let link of links){
   link.addEventListener('click', titleClickHandler);
 }
+
+/* Generowanie listy tytułów ! */
+
+const optArticleSelector = '.post',
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles';
+
+
+function generateTitleLinks(customSelector = ''){
+
+  /* remove contents of titleList */
+
+  const titleList = document.querySelector(optTitleListSelector);
+    titleList.innerHTML = '';
+    console.log(titleList);
+
+  
+
+  /* for each article */
+
+    /* get the article id */
+
+    /* find the title element */
+
+    /* get the title from the title element */
+
+    /* create HTML of the link */
+
+    /* insert link into titleList */
+
+}
+
+
+
+
+
+
+
