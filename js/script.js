@@ -68,11 +68,11 @@ const optArticleSelector = '.post',
     const articles = document.querySelectorAll(optArticleSelector + customSelector);
     // console.log ?
 
-  
+    let html = '';   // dlaczego ?
 
     for (let article of articles){
 
-    let html = '';   // dlaczego ?
+    
 
     /* get the article id */
     // o	odczytaj jego id i zapisz je do stałej,
@@ -95,14 +95,20 @@ const optArticleSelector = '.post',
     /* insert link into titleList */
     // o	wstaw stworzony kod HTML do listy linków w lewej kolumnie.
 
+    titleList.insertAdjacentHTML('beforeend', linkHTML);     // co tu sie dzieje ?
+    html = html + linkHTML;                                  // co tu sie dzieje ?
+     console.log(html);    
+
+    // titleList.innerHTML = html;
     
-    html = html + linkHTML;     // co tu sie stało ?
-    console.log(html);
-    // titleList.innerHTML = titleList.innerHTML + linkHTML;  // co robi innerHTML co tu sie dzieje ?
+    // html = html + linkHTML;     // co tu sie stało ?
+    //titleList.innerHTML = titleList.innerHTML + linkHTML;  // dziala co robi innerHTML co tu sie dzieje ?
+    //console.log(html); 
 
     }
 
     const links = document.querySelectorAll('.titles a');
+    console.log(links);
 
     for (let link of links){
     link.addEventListener('click', titleClickHandler);
