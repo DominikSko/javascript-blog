@@ -12,6 +12,12 @@ body {
   font-weight: 300;
   font-size: 16px;
   line-height: 1.7;
+  background-image: url("https://images2.alphacoders.com/468/4682.jpg");
+  background-color: #fff;
+}
+
+body h1 {
+  color: #fff;
 }
 
 .container {

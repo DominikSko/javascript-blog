@@ -3,8 +3,8 @@
 /* Wyświetlanie artykułu po kliknięciu  */
 
 function titleClickHandler(event){
-  event.preventDefault();                          /* event prevent default?  */
-  const clickedElement = this;                     /* co tu sie dzieje co to jest this */
+  event.preventDefault();                          /* provent devault aby nie skrolowalo nam jak w wikipedi do artykulu   */
+  const clickedElement = this;                     /* this to klikniety element */
   console.log(event,'Link was clicked!');
 
 

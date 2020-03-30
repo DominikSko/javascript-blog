@@ -22,6 +22,12 @@ body {
   font-weight: 300;
   font-size: 16px;
   line-height: 1.7;
+  background-image: url("https://images2.alphacoders.com/468/4682.jpg");
+  background-color: $color-light;
+
+  h1  {
+    color: $color-light;
+  }
 }
 
 .container {
