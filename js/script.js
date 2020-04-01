@@ -9,15 +9,15 @@ function titleClickHandler(event){
 
 
   /* [DONE] remove class 'active' from all article links  */
-    const activeLinks = document.querySelectorAll('.titles a.active');
+  const activeLinks = document.querySelectorAll('.titles a.active');
 
-    for (let activeLink of activeLinks){
-     activeLink.classList.remove('active');
-    }
+  for (let activeLink of activeLinks){
+    activeLink.classList.remove('active');
+  }
 
   /* [DONE] add class 'active' to the clicked link */
 
-  clickedElement.classList.add("active");                      
+  clickedElement.classList.add('active');                      
   console.log('clickedElement', clickedElement);        /* czego odnosze do clickedelement? */
 
   /* [DONE]remove class 'active' from all articles */
@@ -37,8 +37,8 @@ function titleClickHandler(event){
 
   /* add class 'active' to the correct article */
 
-  targetArticle.classList.add("active");                      
-                                                /* brakuje console log? */
+  targetArticle.classList.add('active');                      
+  /* brakuje console log? */
 }
 
 
@@ -47,10 +47,10 @@ function titleClickHandler(event){
 /* Generowanie listy tytułów ! */
 
 const optArticleSelector = '.post',
-      optTitleSelector = '.post-title',
-      optTitleListSelector = '.titles';
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles';
 
-  function generateTitleLinks(customSelector = ''){
+function generateTitleLinks(customSelector = ''){
 
   /* remove contents of titleList */
   // usuń zawartość listy linków w lewej kolumnie,
@@ -62,15 +62,15 @@ const optArticleSelector = '.post',
   console.log(titleList);
 
 
-    /* for each article */
-    // następnie dla każdego artykułu:
+  /* for each article */
+  // następnie dla każdego artykułu:
 
-    const articles = document.querySelectorAll(optArticleSelector + customSelector);
-    // console.log ?
+  const articles = document.querySelectorAll(optArticleSelector + customSelector);
+  // console.log ?
 
-    let html = '';   // dlaczego ?
+  let html = '';   // dlaczego ?
 
-    for (let article of articles){
+  for (let article of articles){
 
     
 
@@ -97,7 +97,7 @@ const optArticleSelector = '.post',
 
     titleList.insertAdjacentHTML('beforeend', linkHTML);     // co tu sie dzieje ?
     html = html + linkHTML;                                  // co tu sie dzieje ?
-     console.log(html);    
+    console.log(html);    
 
     // titleList.innerHTML = html;
     
@@ -105,16 +105,16 @@ const optArticleSelector = '.post',
     //titleList.innerHTML = titleList.innerHTML + linkHTML;  // dziala co robi innerHTML co tu sie dzieje ?
     //console.log(html); 
 
-    }
+  }
 
-    const links = document.querySelectorAll('.titles a');
-    console.log(links);
+  const links = document.querySelectorAll('.titles a');
+  console.log(links);
 
-    for (let link of links){
+  for (let link of links){
     link.addEventListener('click', titleClickHandler);
     // titleList.innerHTML = html;  // co tu sie dzieje ?
-    }
   }
+}
 
 
 generateTitleLinks();
