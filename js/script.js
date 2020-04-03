@@ -1,7 +1,6 @@
 'use strict';
 
 /* Generating article after click!  */
-
 function titleClickHandler(event){
   event.preventDefault();                          /* provent devault aby nie skrolowalo nam jak w wikipedi do artykulu   */
   const clickedElement = this;                     /* this to klikniety element */
@@ -40,18 +39,14 @@ function titleClickHandler(event){
   /* brakuje console log? */
 }
 
-
-
-
-/* Generating title list! */
-
+/* Generating title links! */
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
-  optTitleListSelector = '.titles';
-  optArticleTagsSelector = '.post-tags .list',  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
+  optTitleListSelector = '.titles',
+  optArticleTagsSelector = '.post-tags .list';  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
-                                                    // jeśli nie podano argumentu, to customSelector będzie miał wartość '', czyli pustego ciągu znaków.
+  // jeśli nie podano argumentu, to customSelector będzie miał wartość '', czyli pustego ciągu znaków.
   /* remove contents of titleList */
   // usuń zawartość listy linków w lewej kolumnie,
 
@@ -115,11 +110,10 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
   }
 }
 
-
 generateTitleLinks();
 
-/* Generating TAGS */
 
+/* Generating TAGS */
 function generateTags(){
 
   /* find all articles */
@@ -141,7 +135,7 @@ function generateTags(){
     console.log(articleTags);
 
     /* split tags into array */
-    const articleTagsArray = articleTags.split(' ');  // zmienia się tylko nazwa – zamiast kolekcji elementów, mamy do czynienia z tablicą.
+    const articleTagsArray = articleTags.split('  ');  // zmienia się tylko nazwa – zamiast kolekcji elementów, mamy do czynienia z tablicą.
     console.log(articleTagsArray);
 
 
@@ -151,8 +145,10 @@ function generateTags(){
 
       /* generate HTML of the link */
 
-      const linkHTMLData = {tag: tag, tag: tag};            // skopiowane, da sie inaczej chyba
-      const linkHTML = templates.tagLink(linkHTMLData);    // skopiowane, da sie inaczej chyba
+      //const linkHTMLData = {tag: tag, tag: tag};
+      //const linkHTML = templates.tagLink(linkHTMLData);    // skopiowane, da sie inaczej chyba
+      const linkHTML = '<li><a href="#tag-' + tag + '"> ' + tag + '</a></li>';
+      console.log(linkHTML);
       // <li><a href="#tag-cat">cat</a></li>
 
       /* add generated code to html variable */
@@ -179,7 +175,6 @@ function generateTags(){
 generateTags();
 
 // Funkcja po kliknięciu w tag
-
 function tagClickHandler(event){
   /* prevent default action for this event */
   event.preventDefault();
