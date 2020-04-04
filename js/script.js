@@ -43,9 +43,11 @@ function titleClickHandler(event){
 const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
-  optArticleTagsSelector = '.post-tags .list';  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
+  optArticleTagsSelector = '.post-tags .list',  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
+  optArticleAuthorSelector = '.post .post-author';
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
+  console.log();
   // jeśli nie podano argumentu, to customSelector będzie miał wartość '', czyli pustego ciągu znaków.
   /* remove contents of titleList */
   // usuń zawartość listy linków w lewej kolumnie,
@@ -109,7 +111,6 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
     link.addEventListener('click', titleClickHandler);
   }
 }
-
 generateTitleLinks();
 
 
@@ -135,7 +136,7 @@ function generateTags(){
     console.log(articleTags);
 
     /* split tags into array */
-    const articleTagsArray = articleTags.split('  ');  // zmienia się tylko nazwa – zamiast kolekcji elementów, mamy do czynienia z tablicą.
+    const articleTagsArray = articleTags.split(' ');  // zmienia się tylko nazwa – zamiast kolekcji elementów, mamy do czynienia z tablicą.
     console.log(articleTagsArray);
 
 
@@ -159,20 +160,19 @@ function generateTags(){
     }
 
     /* insert HTML of all the links into the tags wrapper */
-    tagsWrapper.insertAdjacentHTML('beforeend', html);
+    tagsWrapper.insertAdjacentHTML('beforeend', html);   // tu co sie dzieje dokładnie ?
 
   /* END LOOP: for every article: */
   }
 
-  const tags = document.querySelectorAll('.post-tags .list li a');
+  const tags = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
 
   for (let tag of tags){
     tag.addEventListener('click', tagClickHandler);       // tagclickhandler ?
   }
-
 }
-
 generateTags();
+
 
 // Funkcja po kliknięciu w tag
 function tagClickHandler(event){
@@ -180,18 +180,20 @@ function tagClickHandler(event){
   event.preventDefault();
 
   /* make new constant named "clickedElement" and give it the value of "this" */
-  const clickedElement = this;
+  const clickedElement = this;        // co łączymy z this ?
 
   /* make a new constant "href" and read the attribute "href" of the clicked element */
-  const href = clickedElement.getAttribute(href);
+  const href = clickedElement.getAttribute('href');
   console.log(event);
 
   /* make a new constant "tag" and extract tag from the "href" constant */
-  const tag = href.replace('#tag-', '');
+  const tag = href.replace('#tag-', '');            // co sie dzieje ?
+  // funkcja replace otrzymuje dwa argumenty – szukaną frazę oraz ciąg znaków, którym ma ją zastąpić.
 
   /* find all tag links with class active */
-  const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');  // Aby znaleźć wszystkie aktywne linki do tagów, użyjemy selektora 'a.active[href^="#tag-"]'. Ta część zamknięta w nawiasach kwadratowych, to właśnie selektor atrybutu
+  const tagLinks = document.querySelectorAll('a.active[href^="#tag-"]');  // do obgadania, co tu sie dzieje ?
   console.log (tagLinks);
+  //  użyliśmy łącznika ^=, który oznacza "atrybut href zaczynający się od "#tag-"". Dzięki temu nie potrzebujemy dodawać klasy do naszych linków!
 
   /* START LOOP: for each active tag link */
   for (let tagLink of tagLinks) {
@@ -216,6 +218,7 @@ function tagClickHandler(event){
 
   /* execute function "generateTitleLinks" with article selector as argument */
   generateTitleLinks('[data-tags~="' + tag + '"]');  // co tu sie dzieje argument ?
+  // łącznik ~=, który możemy odczytać jako "znajdź elementy, które mają atrybut data-tags, który ma w sobie słowo 'tag'".
 }
 
 function addClickListenersToTags(){
@@ -233,7 +236,83 @@ function addClickListenersToTags(){
   /* END LOOP: for each link */
   }
 }
-
 addClickListenersToTags();
+
+
+// funkcja generate authors jeden autor
+function generateAuthors(){
+
+  // find all articles
+  const articles = document.querySelectorAll(optArticleSelector);
+  console.log(articles);
+  // for every article find author
+  for (let article of articles) {
+
+    const authorsWrapper = article.querySelector(optArticleAuthorSelector);
+    console.log (authorsWrapper);
+
+    let html = '';
+    // get authors from data=authors
+    const author = article.getAttribute('data-author');
+    console.log (author);
+    // no need to split into array
+
+    // generate html link for author  for example <p class="post-author">by Marion Berry</p>
+    const linkHTML = '<a href="#author-' + author + '"> by ' + author + '</a>';
+    console.log(linkHTML);
+
+    // add generated code to html variable
+    html = html + linkHTML;
+    console.log(html);
+
+    // insert html link into wrapper
+    authorsWrapper.insertAdjacentHTML('beforeend', html);
+
+  }
+  const authors = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
+
+  for (let author of authors){
+    author.addEventListener('click', authorClickHandler);       // tagclickhandler ?
+  }
+}
+generateAuthors();
+
+// authorClickHandler wzorujac sie na tagClickHandler, najpierw ta funkcja przed authorclicklisteners?
+
+function authorClickHandler(event){
+
+event.preventDefault();   // prevent default action for this event
+const clickedElement = this;  // dlaczego kliked element przypisujemy do this ?
+const href = clickedElement.getAttribute('href');// read href from clicked element
+console.log(href);
+const author = href.replace('#author-', '');  /* make a new constant authoer and extract tag from the "href" constant */
+const authorLinks = document.querySelectorAll('a.active[href^="#author-"]'); // find all author links with active class
+console.log(authorLinks);
+  for (let authorLink of authorLinks) {
+  authorLink.classList.remove('active');
+  }
+const hrefAuthorLinks = document.querySelectorAll('a[href="' + href + '"]');
+console.log(hrefAuthorLinks);
+  for (let hrefAuthorLink of hrefAuthorLinks){
+    hrefAuthorLink.classList.add('active');
+    console.log(hrefAuthorLink);
+  }
+  generateTitleLinks('[data-author="' + author + '"]');   // co tu wywołuje?
+
+}
+
+// addClickListenersToAuthors wzorujac sie na addClickListenersToTags
+function addClickListenersToAuthors (){
+  const authorLinks = document.querySelectorAll('.post .post-author a'); // find all links to tags */
+  console.log(authorLinks);
+  for (let authorLink of authorLinks) {  // for each link add tagClickHandler as event listener for that link */
+    authorLink.addEventListener('click', authorClickHandler);
+  }
+}
+addClickListenersToAuthors();
+
+// nie muze zmieniac generatleTitleLinks, wywoloac funkcje authorClickHandler z opodiwednim argumentem:
+
+
 
 
