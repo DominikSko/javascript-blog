@@ -44,7 +44,8 @@ const optArticleSelector = '.post',
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
-  optArticleAuthorSelector = '.post .post-author';
+  optArticleAuthorSelector = '.post .post-author',
+  optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
   console.log();
@@ -312,6 +313,103 @@ function addClickListenersToAuthors (){
 addClickListenersToAuthors();
 
 // nie muze zmieniac generatleTitleLinks, wywoloac funkcje authorClickHandler z opodiwednim argumentem:
+
+// LISTA TAGÓW PO PRAWEJ
+
+/* Generating TAGS */
+function generateTagsCloud(){
+
+  // create a new variable allTags with an empty array [] > zmieniamy na nowy object {}*/
+  let allTags = {};
+  console.log(allTags);
+
+  /* find all articles */
+  const articles = document.querySelectorAll(optArticleSelector);
+  console.log(articles);
+
+  /* START LOOP: for every article: */
+  for (let article of articles){
+
+    /* find tags wrapper */
+    const tagsWrapper = article.querySelector(optArticleTagsSelector);
+    console.log (tagsWrapper);
+
+    /* make html variable with empty string */
+    let html = '';
+
+    /* get tags from data-tags attribute */
+    const articleTags = article.getAttribute('data-tags');  // odczytanie tagów z atrybutu data-tags naszego artykułu
+    console.log(articleTags);
+
+    /* split tags into array */
+    const articleTagsArray = articleTags.split(' ');  // zmienia się tylko nazwa – zamiast kolekcji elementów, mamy do czynienia z tablicą.
+    console.log(articleTagsArray);
+
+
+    /* START LOOP: for each tag */
+    for (let tag of articleTagsArray) {
+      console.log(tag);                     // Zauważ, że spacje, które znajdowały się pomiędzy tagami, zostały usunięte. Zajęła się tym funkcja split.
+
+      /* generate HTML of the link */
+
+      //const linkHTMLData = {tag: tag, tag: tag};
+      //const linkHTML = templates.tagLink(linkHTMLData);    // skopiowane, da sie inaczej chyba
+      const linkHTML = '<li><a href="#tag-' + tag + '"> ' + tag + '</a></li>';
+      console.log(linkHTML);
+      // <li><a href="#tag-cat">cat</a></li>
+
+      /* add generated code to html variable */
+      html = html + linkHTML;
+      console.log(html);
+
+       /* [NEW] check if this link is NOT already in allTags */  // do omówienia !
+      if(!allTags.hasOwnProperty(tag)){                     // do omówienia !
+        /* [NEW] add tag to allTags object */
+        allTags[tag] = 1;
+      } else {
+        allTags[tag]++;
+      }
+      console.log(allTags);
+
+    /* END LOOP: for each tag */
+    }
+
+    /* insert HTML of all the links into the tags wrapper */
+    //tagsWrapper.insertAdjacentHTML('beforeend', html);   // tu co sie dzieje dokładnie ?
+
+  /* END LOOP: for every article: */
+  }
+
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+  console.log(tagList);
+
+  /* [NEW] add html from allTags to tagList */
+  //tagList.innerHTML = allTags.join(' ');  // co tu sie dzieje ?
+  //console.log(allTags);
+
+  // new create variable for all links HTML code
+  let allTagsHTML = '';
+
+  // start loop for each tag in allTags
+  for (let tag in allTags) {
+    // generate code of a link and add it to alltags html
+    allTagsHTML += tag + ' (' + allTags[tag] + ') ';
+  } // end loop
+  // add html from alltagsHTML to tagList
+  tagList.innerHTML = allTagsHTML;
+
+
+  const tags = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
+
+  for (let tag of tags){
+    tag.addEventListener('click', tagClickHandler);       // tagclickhandler ?
+  }
+}
+
+generateTagsCloud();
+
+// budujemy obiekt liczący tagi po prawej
 
 
 
