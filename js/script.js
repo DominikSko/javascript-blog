@@ -47,7 +47,8 @@ const optArticleSelector = '.post',
   optArticleAuthorSelector = '.post .post-author',
   optTagsListSelector = '.tags.list',
   optCloudClassCount = '5',
-  optCloudClassPrefix = 'tag-size-';
+  optCloudClassPrefix = 'tag-size-',
+  optAuthorsListSelector = '.authors.list';
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
   console.log();
@@ -116,6 +117,30 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
 }
 generateTitleLinks();
 
+function calculateAuthorsParams(authors) {
+
+  const params = {max: '0', min: '99999'};
+
+  for (let author in author){   // in bo szukamy w obiekcie
+    console.log(author + ' is used ' + authors[author] + ' times');   // tags[tag] ?
+    if (authors[author] > params.max) {
+      params.max = authors[author];
+    }
+    if (authors[author] < params.min) {
+      params.min = authors[author];
+    }
+  }
+  return params;
+}
+
+function calculateAuthorClass(count, params) {
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
+  const classValue = optCloudClassPrefix + classNumber;
+  return classValue;
+}
 // znalezenie ilosci wystepowania tagow
 // params od parameters, podobnie jak "opts" dla options czy "elem" dla elements
 function calculateTagsParams(tags){
@@ -208,11 +233,11 @@ generateTags();
 
 // Funkcja po kliknięciu w tag
 function tagClickHandler(event){
-  /* prevent default action for this event */
+
   event.preventDefault();
 
   /* make new constant named "clickedElement" and give it the value of "this" */
-  const clickedElement = this;        // co łączymy z this ?
+  const clickedElement = this;
 
   /* make a new constant "href" and read the attribute "href" of the clicked element */
   const href = clickedElement.getAttribute('href');
@@ -445,7 +470,3 @@ function generateTagsCloud(){
 generateTagsCloud();
 
 // budujemy obiekt liczący tagi po prawej
-
-
-
-
