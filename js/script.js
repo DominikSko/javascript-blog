@@ -45,7 +45,9 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
   optArticleAuthorSelector = '.post .post-author',
-  optTagsListSelector = '.tags.list';
+  optTagsListSelector = '.tags.list',
+  optCloudClassCount = '5',
+  optClousClassPrefix = 'tag-size-';
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
   console.log();
@@ -114,6 +116,35 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
 }
 generateTitleLinks();
 
+// znalezenie ilosci wystepowania tagow
+// params od parameters, podobnie jak "opts" dla options czy "elem" dla elements
+function calculateTagsParams(tags){
+
+  const params = {max: '0', min: '99999'};
+
+  for (let tag in tags){   // in bo szukamy w obiekcie
+    console.log(tag + ' is used ' + tags[tag] + ' times');   // tags[tag] ?
+    if(tags[tag] > params.max){
+      params.max = tags[tag];
+    }
+    if(tags[tag] < params.min){
+      params.min = tags[tag];
+    }
+  }
+  return params;
+}
+
+function calculateTagClass(count, params){
+
+  const normalizedCount = count - params.min;   // count ?
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor( percentage * (optCloudClassCount - 1) + 1 );
+  console.log (classNumber);
+
+  return optCloudClassPrefix, classNumber;   // dlaczego prefix przy optCloudClass ?
+
+}
 
 /* Generating TAGS */
 function generateTags(){
@@ -352,8 +383,6 @@ function generateTagsCloud(){
 
       /* generate HTML of the link */
 
-      //const linkHTMLData = {tag: tag, tag: tag};
-      //const linkHTML = templates.tagLink(linkHTMLData);    // skopiowane, da sie inaczej chyba
       const linkHTML = '<li><a href="#tag-' + tag + '"> ' + tag + '</a></li>';
       console.log(linkHTML);
       // <li><a href="#tag-cat">cat</a></li>
@@ -387,6 +416,9 @@ function generateTagsCloud(){
   /* [NEW] add html from allTags to tagList */
   //tagList.innerHTML = allTags.join(' ');  // co tu sie dzieje ?
   //console.log(allTags);
+
+  const tagsParams = calculateTagsParams(allTags);   // dlaczego w tym miejscu dajemy stałą do tagparams?
+  console.log('tagParams', tagsParams)
 
   // new create variable for all links HTML code
   let allTagsHTML = '';
