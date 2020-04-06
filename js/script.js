@@ -1,5 +1,15 @@
 'use strict';
 
+const optArticleSelector = '.post',  // wybieranie po selektorach
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles',
+  optArticleTagsSelector = '.post-tags .list',
+  optArticleAuthorSelector = '.post .post-author',
+  optTagsListSelector = '.tags.list',
+  optCloudClassCount = '5',
+  optCloudClassPrefix = 'tag-size-',
+  optAuthorsListSelector = '.authors.list';
+
 /* Generating article after click!  */
 function titleClickHandler(event){
   event.preventDefault();                          /* provent devault aby nie skrolowalo nam jak w wikipedi do artykulu   */
@@ -40,16 +50,6 @@ function titleClickHandler(event){
 }
 
 /* Generating title links! */
-const optArticleSelector = '.post',
-  optTitleSelector = '.post-title',
-  optTitleListSelector = '.titles',
-  optArticleTagsSelector = '.post-tags .list',  // ten selektor wybierze nam listę <ul>, w której będą zawarte tagi poszczególnych artykułów.
-  optArticleAuthorSelector = '.post .post-author',
-  optTagsListSelector = '.tags.list',
-  optCloudClassCount = '5',
-  optCloudClassPrefix = 'tag-size-',
-  optAuthorsListSelector = '.authors.list';
-
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
   console.log();
   // jeśli nie podano argumentu, to customSelector będzie miał wartość '', czyli pustego ciągu znaków.
@@ -117,33 +117,8 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
 }
 generateTitleLinks();
 
-function calculateAuthorsParams(authors) {
-
-  const params = {max: '0', min: '99999'};
-
-  for (let author in author){   // in bo szukamy w obiekcie
-    console.log(author + ' is used ' + authors[author] + ' times');   // tags[tag] ?
-    if (authors[author] > params.max) {
-      params.max = authors[author];
-    }
-    if (authors[author] < params.min) {
-      params.min = authors[author];
-    }
-  }
-  return params;
-}
-
-function calculateAuthorClass(count, params) {
-  const normalizedCount = count - params.min;
-  const normalizedMax = params.max - params.min;
-  const percentage = normalizedCount / normalizedMax;
-  const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
-  const classValue = optCloudClassPrefix + classNumber;
-  return classValue;
-}
 // znalezenie ilosci wystepowania tagow
-// params od parameters, podobnie jak "opts" dla options czy "elem" dla elements
-function calculateTagsParams(tags){
+function calculateTagsParams(tags){  // params od parameters, podobnie jak "opts" dla options czy "elem" dla elements
 
   const params = {max: '0', min: '99999'};
 
@@ -158,7 +133,7 @@ function calculateTagsParams(tags){
   }
   return params;
 }
-
+// kalkulowanie klas po ilosci występowania
 function calculateTagClass(count, params){
 
   const normalizedCount = count - params.min;   // count ?
@@ -171,7 +146,7 @@ function calculateTagClass(count, params){
 
 }
 
-/* Generating TAGS */
+// generowanie tagów
 function generateTags(){
 
   /* find all articles */
@@ -296,8 +271,12 @@ function addClickListenersToTags(){
 addClickListenersToTags();
 
 
-// funkcja generate authors jeden autor
+// funkcja generate authors
 function generateAuthors(){
+
+  /* Tworze obiekt który będzie przechowywał wszystkich autorów i podpisuję to pod stałą  */
+  let allAuthors = {};
+  console.log(allAuthors);
 
   // find all articles
   const articles = document.querySelectorAll(optArticleSelector);
@@ -305,18 +284,24 @@ function generateAuthors(){
   // for every article find author
   for (let article of articles) {
 
+    /* znajduje wrapper w html an autorów   */
     const authorsWrapper = article.querySelector(optArticleAuthorSelector);
     console.log (authorsWrapper);
 
+    /* przygotowanie zmiennej HTML  */
     let html = '';
+
     // get authors from data=authors
-    const author = article.getAttribute('data-author');
-    console.log (author);
-    // no need to split into array
+    const articleAuthor = article.getAttribute('data-author');
 
     // generate html link for author  for example <p class="post-author">by Marion Berry</p>
-    const linkHTML = '<a href="#author-' + author + '"> by ' + author + '</a>';
-    console.log(linkHTML);
+    const linkHTML = '<a href="#author-' + articleAuthor + '"> by ' + articleAuthor + '</a>';
+
+    if(!allAuthors[articleAuthor]) {       // DO PRZEGADANIA CAŁE IF ELSE
+      allAuthors[articleAuthor] = 1;
+    } else {
+    allAuthors[articleAuthor]++;
+    }
 
     // add generated code to html variable
     html = html + linkHTML;
@@ -324,13 +309,29 @@ function generateAuthors(){
 
     // insert html link into wrapper
     authorsWrapper.insertAdjacentHTML('beforeend', html);
-
+    console.log(allAuthors);
   }
+
+  // dodawanie autorów do chmury po prawej
+  /* pobieram wrapper do autorów z prawego sidebara */
+  const authorListSidebar = document.querySelector('.authors');
+  // wrzucam zawartosc obiektu all authors do funkcji calculateparams
+  const authorsParams = calculateTagsParams(allAuthors);
+  console.log('authorParams:', authorsParams);
+  let allTagsHTML = '';
+
+  for(let author in allAuthors) {              // DO PRZEGADANIA CAŁE FOR
+
+    const authorNumber = calculateTagClass(allAuthors[author], authorsParams);
+    console.log('authorNumber:', authorNumber);
+    allTagsHTML += '<li><a class="tag-size-'+ authorNumber +' " href ="#author-' + author + '">'+ author + '</a></li> ';
+  }
+  authorListSidebar.innerHTML = allTagsHTML;
+
 }
 generateAuthors();
 
 // authorClickHandler wzorujac sie na tagClickHandler, najpierw ta funkcja przed authorclicklisteners?
-
 function authorClickHandler(event){
 
 event.preventDefault();   // prevent default action for this event
@@ -363,11 +364,7 @@ function addClickListenersToAuthors (){
 }
 addClickListenersToAuthors();
 
-// nie muze zmieniac generatleTitleLinks, wywoloac funkcje authorClickHandler z opodiwednim argumentem:
-
-// LISTA TAGÓW PO PRAWEJ
-
-/* Generating TAGS */
+// generowanie chmury tagów po prawej
 function generateTagsCloud(){
 
   // create a new variable allTags with an empty array [] > zmieniamy na nowy object {}*/
@@ -468,5 +465,3 @@ function generateTagsCloud(){
 }
 
 generateTagsCloud();
-
-// budujemy obiekt liczący tagi po prawej
