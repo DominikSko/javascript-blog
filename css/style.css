@@ -50,6 +50,39 @@ body h1 {
       flex: 1 0 0;
 }
 
+.sidebar .tag-size-5 {
+  font-size: 220%;
+  color: #444;
+  font-weight: bold;
+}
+
+.sidebar .tag-size-4 {
+  font-size: 180%;
+  color: #444;
+  font-weight: bold;
+}
+
+.sidebar .tag-size-3 {
+  font-size: 140%;
+  color: #444;
+  font-weight: bold;
+}
+
+.sidebar .tag-size-2 {
+  font-size: 100%;
+  color: #444;
+}
+
+.sidebar .tag-size-1 {
+  font-size: 80%;
+  color: #444;
+}
+
+.list.tags li {
+  display: inline-block;
+  padding: 7px;
+}
+
 .posts {
   -ms-flex: 2 0 0px;
       flex: 2 0 0;

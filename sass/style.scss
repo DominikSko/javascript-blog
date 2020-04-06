@@ -58,6 +58,36 @@ body {
 
 .sidebar {
   flex: 1 0 0;
+
+  .tag-size-5 {
+    font-size: 220%;
+    color: $color-dark;
+    font-weight: bold;
+  }
+  .tag-size-4 {
+    font-size: 180%;
+    color: $color-dark;
+    font-weight: bold;
+  }
+  .tag-size-3 {
+    font-size: 140%;
+    color: $color-dark;
+    font-weight: bold;
+  }
+  .tag-size-2 {
+    font-size: 100%;
+    color: $color-dark;
+  }
+  .tag-size-1 {
+    font-size: 80%;
+    color: $color-dark;
+  }
+}
+.list.tags {
+  li {
+    display: inline-block;
+    padding: 7px;
+  }
 }
 
 .posts {

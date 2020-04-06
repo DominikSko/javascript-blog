@@ -47,7 +47,7 @@ const optArticleSelector = '.post',
   optArticleAuthorSelector = '.post .post-author',
   optTagsListSelector = '.tags.list',
   optCloudClassCount = '5',
-  optClousClassPrefix = 'tag-size-';
+  optCloudClassPrefix = 'tag-size-';
 
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
   console.log();
@@ -301,11 +301,6 @@ function generateAuthors(){
     authorsWrapper.insertAdjacentHTML('beforeend', html);
 
   }
-  const authors = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
-
-  for (let author of authors){
-    author.addEventListener('click', authorClickHandler);       // tagclickhandler ?
-  }
 }
 generateAuthors();
 
@@ -414,8 +409,8 @@ function generateTagsCloud(){
   console.log(tagList);
 
   /* [NEW] add html from allTags to tagList */
-  //tagList.innerHTML = allTags.join(' ');  // co tu sie dzieje ?
-  //console.log(allTags);
+  // Zamiana listy tagów w chmurę
+  // Znalezienie skrajnych liczb wystąpień
 
   const tagsParams = calculateTagsParams(allTags);   // dlaczego w tym miejscu dajemy stałą do tagparams?
   console.log('tagParams', tagsParams)
@@ -425,8 +420,16 @@ function generateTagsCloud(){
 
   // start loop for each tag in allTags
   for (let tag in allTags) {
-    // generate code of a link and add it to alltags html
-    allTagsHTML += tag + ' (' + allTags[tag] + ') ';
+    // GENERATE CODE of a link and add it to alltags html
+
+    // przed stworzeniem linka html - allTagsHTML += tag + ' (' + allTags[tag] + ') ';  - nizej po dodaniu do linka HTML - WAZNE !!!
+    //const tagLinkHTML = '<li><a class="tag-size-' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag +'">'+ tag + ' (' + allTags[tag] + ')</a></li>';
+    //bez podliczania liczby wyswietlen w linku:
+    const tagLinkHTML = '<li><a class="tag-size-' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag +'">'+ tag + '</a></li>';
+    console.log('tagLinkHTML:', tagLinkHTML);
+    allTagsHTML += tagLinkHTML;
+
+    // allTagsHTML += `<li class="${calculateTagClass(allTags[tag], tagsParams)}"><a href="#tag-${tag}">${tag} (${allTags[tag]})</a></li>`
   } // end loop
   // add html from alltagsHTML to tagList
   tagList.innerHTML = allTagsHTML;
