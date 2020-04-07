@@ -10,6 +10,13 @@ const optArticleSelector = '.post',  // wybieranie po selektorach
   optCloudClassPrefix = 'tag-size-',
   optAuthorsListSelector = '.authors.list';
 
+
+  //const opts = {  // funkcja znajdz i zamień, stałe można zapisac w obiektach (obiekty w obiektach)
+   // articleSelector: '.post',
+    //titleSelector: '.post-title',
+    //titleListSelector: '.titles'
+  //};
+
 /* Generating article after click!  */
 function titleClickHandler(event){
   event.preventDefault();                          /* provent devault aby nie skrolowalo nam jak w wikipedi do artykulu   */
@@ -315,17 +322,22 @@ function generateAuthors(){
   // dodawanie autorów do chmury po prawej
   /* pobieram wrapper do autorów z prawego sidebara */
   const authorListSidebar = document.querySelector('.authors');
-  // wrzucam zawartosc obiektu all authors do funkcji calculateparams
+
+  // do authors params przypisuje wynik działania funkcji
   const authorsParams = calculateTagsParams(allAuthors);
   console.log('authorParams:', authorsParams);
+
   let allTagsHTML = '';
 
   for(let author in allAuthors) {              // DO PRZEGADANIA CAŁE FOR
 
+    /* generate code of a link and add it to allTagsHTML */
     const authorNumber = calculateTagClass(allAuthors[author], authorsParams);
     console.log('authorNumber:', authorNumber);
     allTagsHTML += '<li><a class="tag-size-'+ authorNumber +' " href ="#author-' + author + '">'+ author + '</a></li> ';
   }
+
+  /* add HTML from allTagsHTML to tagList */
   authorListSidebar.innerHTML = allTagsHTML;
 
 }

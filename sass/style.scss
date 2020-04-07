@@ -4,6 +4,7 @@
 
 $color-light: #fff;
 $color-dark: #444;
+$color-gold: #0682E3;
 
 $font-logo: 'Sacramento', cursive;
 $font-header: 'Oswald', sans-serif;
@@ -61,26 +62,26 @@ body {
 
   .tag-size-5 {
     font-size: 220%;
-    color: $color-dark;
+    color: $color-gold;
     font-weight: bold;
   }
   .tag-size-4 {
     font-size: 180%;
-    color: $color-dark;
+    color: $color-gold;
     font-weight: bold;
   }
   .tag-size-3 {
     font-size: 140%;
-    color: $color-dark;
+    color: $color-gold;
     font-weight: bold;
   }
   .tag-size-2 {
     font-size: 100%;
-    color: $color-dark;
+    color: $color-gold;
   }
   .tag-size-1 {
     font-size: 80%;
-    color: $color-dark;
+    color: $color-gold;
   }
 }
 .list.tags {
