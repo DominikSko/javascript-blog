@@ -134,6 +134,8 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
 }
 generateTitleLinks();
 
+
+
 // znalezenie ilosci wystepowania tagow
 function calculateTagsParams(tags){  // params od parameters, podobnie jak "opts" dla options czy "elem" dla elements
 
