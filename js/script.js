@@ -89,19 +89,17 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
 
   for (let article of articles){
 
-
-
     /* get the article id */
     // o	odczytaj jego id i zapisz je do stałej,
     const articleId = article.getAttribute('id');     // co tu robi article?
     console.log(articleId);
+
     /* find the title element */
     // 	znajdź element z tytułem i zapisz jego zawartość do stałej,
 
     const articleTitle = article.querySelector(optTitleSelector).innerHTML; // co robi article i innerHTML?
     console.log (articleTitle);
     /* get the title from the title element */
-    // zrobione wyzej w jednej linii kodu
 
     /* create HTML of the link */
     //	na podstawie tych informacji stwórz kod HTML linka i zapisz go do stałej,
@@ -364,6 +362,13 @@ function generateAuthors(){
   authorListSidebar.innerHTML = templates.authorCloudLink(allAuthorsData);
   console.log(allAuthorsData);
 
+  const authors = document.querySelectorAll('.authors a');
+
+  for (let author of authors) {
+    author.addEventListener('click' , authorClickHandler);
+  }
+
+
 }
 generateAuthors();
 
@@ -405,7 +410,6 @@ function generateTagsCloud(){
 
   // create a new variable allTags with an empty array [] > zmieniamy na nowy object {}*/
   let allTags = {};
-  console.log(allTags);
 
   /* find all articles */
   const articles = document.querySelectorAll(optArticleSelector);
@@ -503,11 +507,13 @@ function generateTagsCloud(){
   console.log(allTagsData);
 
 
-  const tags = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
+  // co tu sie dzieje juz po funkcji generatetags?
+  const tags = document.querySelectorAll('.tags a');
 
   for (let tag of tags){
     tag.addEventListener('click', tagClickHandler);       // tagclickhandler ?
   }
+
 }
 
 generateTagsCloud();
