@@ -141,6 +141,10 @@ body h1 {
   font-style: italic;
 }
 
+.post-author li {
+  list-style-type: none;
+}
+
 .post-tags {
   display: -ms-flexbox;
   display: flex;

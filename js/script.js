@@ -1,5 +1,14 @@
 'use strict';
 
+const templates = {  // wstawiamy template
+  articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+  tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+  authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+  tagCloudLink : Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
+  authorCloudLink : Handlebars.compile(document.querySelector('#template-author-cloud-link').innerHTML),
+
+}
+
 const optArticleSelector = '.post',  // wybieranie po selektorach
   optTitleSelector = '.post-title',
   optTitleListSelector = '.titles',
@@ -97,8 +106,11 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
     /* create HTML of the link */
     //	na podstawie tych informacji stwórz kod HTML linka i zapisz go do stałej,
 
-    const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
-    console.log(linkHTML);
+    //const linkHTML = '<li><a href="#' + articleId + '"><span>' + articleTitle + '</span></a></li>';
+    //console.log(linkHTML);
+    // wykorzystanie szablonu/ template i zmiana generowania linków do HTML
+    const linkHTMLData = {id: articleId, title: articleTitle};
+    const linkHTML = templates.articleLink(linkHTMLData);
 
     /* insert link into titleList */
     // o	wstaw stworzony kod HTML do listy linków w lewej kolumnie.
@@ -184,12 +196,11 @@ function generateTags(){
       console.log(tag);                     // Zauważ, że spacje, które znajdowały się pomiędzy tagami, zostały usunięte. Zajęła się tym funkcja split.
 
       /* generate HTML of the link */
-
-      //const linkHTMLData = {tag: tag, tag: tag};
-      //const linkHTML = templates.tagLink(linkHTMLData);    // skopiowane, da sie inaczej chyba
-      const linkHTML = '<li><a href="#tag-' + tag + '"> ' + tag + '</a></li>';
-      console.log(linkHTML);
-      // <li><a href="#tag-cat">cat</a></li>
+      //const linkHTML = '<li><a href="#tag-' + tag + '"> ' + tag + '</a></li>';
+      //console.log(linkHTML);
+      //generujemy link poprzez templates
+      const linkHTMLData = {id: tag, title: tag};
+      const linkHTML = templates.tagLink(linkHTMLData);
 
       /* add generated code to html variable */
       html = html + linkHTML;
@@ -302,7 +313,10 @@ function generateAuthors(){
     const articleAuthor = article.getAttribute('data-author');
 
     // generate html link for author  for example <p class="post-author">by Marion Berry</p>
-    const linkHTML = '<a href="#author-' + articleAuthor + '"> by ' + articleAuthor + '</a>';
+    //const linkHTML = '<a href="#author-' + articleAuthor + '"> by ' + articleAuthor + '</a>';
+    // generujemy link pod template template-author-link
+    const linkHTMLData = {author: articleAuthor, author: articleAuthor};
+    const linkHTML = templates.authorLink(linkHTMLData);
 
     if(!allAuthors[articleAuthor]) {       // DO PRZEGADANIA CAŁE IF ELSE
       allAuthors[articleAuthor] = 1;
@@ -327,18 +341,28 @@ function generateAuthors(){
   const authorsParams = calculateTagsParams(allAuthors);
   console.log('authorParams:', authorsParams);
 
-  let allTagsHTML = '';
+  //let allTagsHTML = '';
+  const allAuthorsData = {authors: []};
 
   for(let author in allAuthors) {              // DO PRZEGADANIA CAŁE FOR
 
     /* generate code of a link and add it to allTagsHTML */
     const authorNumber = calculateTagClass(allAuthors[author], authorsParams);
     console.log('authorNumber:', authorNumber);
-    allTagsHTML += '<li><a class="tag-size-'+ authorNumber +' " href ="#author-' + author + '">'+ author + '</a></li> ';
-  }
 
+    //allTagsHTML += '<li><a class="tag-size-'+ authorNumber +' " href ="#author-' + author + '">'+ author + '</a></li> ';
+
+    allAuthorsData.authors.push({
+      author: author,
+      count: allAuthors[author],
+      className: calculateTagClass(allAuthors[author], authorsParams)
+    });
+  }
   /* add HTML from allTagsHTML to tagList */
-  authorListSidebar.innerHTML = allTagsHTML;
+  //authorListSidebar.innerHTML = allTagsHTML;
+
+  authorListSidebar.innerHTML = templates.authorCloudLink(allAuthorsData);
+  console.log(allAuthorsData);
 
 }
 generateAuthors();
@@ -450,7 +474,8 @@ function generateTagsCloud(){
   console.log('tagParams', tagsParams)
 
   // new create variable for all links HTML code
-  let allTagsHTML = '';
+  // let allTagsHTML = ''; zmieniamy na zmienna pod template
+  const allTagsData = {tags: []};
 
   // start loop for each tag in allTags
   for (let tag in allTags) {
@@ -459,14 +484,23 @@ function generateTagsCloud(){
     // przed stworzeniem linka html - allTagsHTML += tag + ' (' + allTags[tag] + ') ';  - nizej po dodaniu do linka HTML - WAZNE !!!
     //const tagLinkHTML = '<li><a class="tag-size-' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag +'">'+ tag + ' (' + allTags[tag] + ')</a></li>';
     //bez podliczania liczby wyswietlen w linku:
-    const tagLinkHTML = '<li><a class="tag-size-' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag +'">'+ tag + '</a></li>';
-    console.log('tagLinkHTML:', tagLinkHTML);
-    allTagsHTML += tagLinkHTML;
+    //const tagLinkHTML = '<li><a class="tag-size-' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag +'">'+ tag + '</a></li>';
+    //console.log('tagLinkHTML:', tagLinkHTML);
+
+    //allTagsHTML += tagLinkHTML; zmieniamy na obiekt pod template
+    allTagsData.tags.push({
+      tag: tag,
+      count: allTags[tag],
+      className: calculateTagClass(allTags[tag], tagsParams)
+    });
 
     // allTagsHTML += `<li class="${calculateTagClass(allTags[tag], tagsParams)}"><a href="#tag-${tag}">${tag} (${allTags[tag]})</a></li>`
   } // end loop
   // add html from alltagsHTML to tagList
-  tagList.innerHTML = allTagsHTML;
+
+  // tagList.innerHTML = allTagsHTML; zmienamy pod template
+  tagList.innerHTML = templates.tagCloudLink(allTagsData);
+  console.log(allTagsData);
 
 
   const tags = document.querySelectorAll('.post-tags .list li a');      // co tu sie dzieje juz po funkcji generatetags?
