@@ -25,6 +25,7 @@ const optArticleSelector = '.post',  // wybieranie po selektorach
     //titleSelector: '.post-title',
     //titleListSelector: '.titles'
   //};
+  document.getElementById('button').addEventListener('click', generateTitleLinks);
 
 /* Generating article after click!  */
 function titleClickHandler(event){
@@ -67,7 +68,6 @@ function titleClickHandler(event){
 
 /* Generating title links! */
 function generateTitleLinks(customSelector = ''){   // po co dodalismy customselector ?
-  console.log();
   // jeśli nie podano argumentu, to customSelector będzie miał wartość '', czyli pustego ciągu znaków.
   /* remove contents of titleList */
   // usuń zawartość listy linków w lewej kolumnie,
@@ -131,6 +131,7 @@ function generateTitleLinks(customSelector = ''){   // po co dodalismy customsel
   for (let link of links){
     link.addEventListener('click', titleClickHandler);
   }
+
 }
 generateTitleLinks();
 
