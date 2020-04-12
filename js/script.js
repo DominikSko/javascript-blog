@@ -26,7 +26,7 @@ const optArticleSelector = '.post',  // wybieranie po selektorach
     //titleListSelector: '.titles'
   //};
   //document.getElementById('#showAllLinksBtn').addEventListener('click', function() {generateTitleLinks});
-  document.querySelector('#button').addEventListener('click', function() { generateTitleLinks() });
+  document.querySelector('#showAllLinksBtn').addEventListener('click', function() { generateTitleLinks() });
 
 /* Generating article after click!  */
 function titleClickHandler(event){
