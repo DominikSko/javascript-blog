@@ -1,0 +1,1 @@
+"test:js": "eslint js/", removed from json
