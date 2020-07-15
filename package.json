@@ -20,13 +20,13 @@
     "watch:sassprefixer": "onchange sass/*.scss -- npm run build-dev",
     "start": "webpack-dev-server --mode development --open --hot",
     "lint": "eslint src/",
-    "production": "http-server dist"
+    "server": "json-server --port 3131 --no-cors"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^0.12.3"
+    "json-server": "^0.16.1"
   },
   "devDependencies": {
     "autoprefixer-cli": "^1.0.0",
