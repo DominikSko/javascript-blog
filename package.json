@@ -10,7 +10,7 @@
     "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
     "test": "npm-run-all test:*",
     "test:html": "html-validate *.html",
-    "build": "npm-run-all build:* test webpack --mode production",
+    "build": "npm-run-all build:* test",
     "build:sass": "node-sass --output-style compact -o css sass",
     "build:autoprefixer": "autoprefixer-cli css/style.css",
     "build-dev": "npm-run-all build-dev:sass build:autoprefixer",
@@ -18,15 +18,13 @@
     "watch": "npm-run-all build build-dev -p watch:*",
     "watch:browsersync": "browser-sync start --server --files \"css/*.css\" \"*.html\" \"js/*.js\"",
     "watch:sassprefixer": "onchange sass/*.scss -- npm run build-dev",
-    "start": "webpack-dev-server --mode development --open --hot",
-    "lint": "eslint src/",
-    "server": "json-server --port 3131 --no-cors"
+    "start": "harp server --port $PORT"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "json-server": "^0.16.1"
+    "harp": "^0.32.0"
   },
   "devDependencies": {
     "autoprefixer-cli": "^1.0.0",
