@@ -24,7 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "harp": "^0.32.0"
+    "harp": "^0.40.3"
   },
   "devDependencies": {
     "autoprefixer-cli": "^1.0.0",
